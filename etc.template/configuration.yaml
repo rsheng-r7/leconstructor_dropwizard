@@ -1,0 +1,17 @@
+server:
+  application_connectors:
+    - type: http
+      port: ${http.port}
+  admin_connectors:
+    - type: http
+      port: ${http.admin.port}
+
+logging:
+  level: INFO
+  loggers:
+    io.dropwizard: INFO
+    org.eclipse: INFO
+    org.apache.http: INFO
+  appenders:
+    - type: console
+      log_format: "[%level] [%date] thread:%thread - %msg%n"

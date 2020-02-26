@@ -1,0 +1,20 @@
+version: '3'
+services:
+
+  orchestrator_test_dropwizard:
+    build: ./
+    image: 'rapid7/logentries-orchestrator_test_dropwizard'
+    ports:
+      - "9999"
+      - "8888"
+    command: bash -c "supervisord && supervisorctl status && tail -f /var/log/logentries/orchestrator_test_dropwizard.log"
+    volumes:
+      - ../properties:/etc/logentries/orchestrator_test_dropwizard.properties:ro
+
+  orchestrator_test_dropwizard-tests:
+    build: ../acceptance_tests/tests
+    image: orchestrator_test_dropwizard-tests
+    command: tail -f /dev/null
+    volumes:
+      - ../acceptance_tests/tests:/tests
+      - ./wait-for.sh:/docker/wait-for.sh:ro
